@@ -1,0 +1,16 @@
+@layer utilities {
+  .text-error {
+    color: #ff4d4f;
+  }
+
+  .required::after {
+    content: " (*) ";
+    color: red;
+  }
+
+  .bg-warning {
+    background-color: orange;
+    color: white;
+    border: rgb(218, 141, 0);
+  }
+}

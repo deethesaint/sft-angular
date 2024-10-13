@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+//tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "custom/tailwind";
+@import "custom/ant";
+
+//ng-zorro
+@import "node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
+@layer base {
+  :root {
+    //default
+    --color-primary: 153 20 47;
+    --color-secondary: 138 21 44;
+    --color-paper: 0 0 0;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

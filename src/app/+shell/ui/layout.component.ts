@@ -12,6 +12,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HeaderComponent } from './components/header/feature/header.component';
 import { FooterComponent } from './components/footer/feature/footer.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 @Component({
   selector: 'meu-layout',
@@ -25,14 +27,17 @@ import { FooterComponent } from './components/footer/feature/footer.component';
     NzIconModule,
     CommonModule,
     NzToolTipModule,
+    NzLayoutModule
   ],
   template: `
     <div class="tw-container">
+      <nz-layout>
       <meu-header></meu-header>
       <div class="tw-relative tw-min-h-[92dvh]">
         <router-outlet></router-outlet>
       </div>
       <meu-footer></meu-footer>
+      </nz-layout>
     </div>
   `,
   animations: [],

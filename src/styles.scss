@@ -4,6 +4,7 @@
 @tailwind utilities;
 @import "custom/tailwind";
 @import "custom/ant";
+@import "ng-zorro-antd/ng-zorro-antd.min.css";
 
 @layer base {
   :root {

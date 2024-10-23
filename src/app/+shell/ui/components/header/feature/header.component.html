@@ -1,5 +1,10 @@
-<header>
-    <h1>
-        It is a header
-    </h1>
-</header>
+<nz-header class="tw-bg-white">
+    <a routerLink="/home" routerLinkActive="active">
+        <img src="https://yt3.googleusercontent.com/y4J_Fs5ksRlxx6_LzT1VKxVqH_T8Vyn_RN_YYgLJhuMzBS5qxTgm7NlEcMkQd3hgCpfWtYcEUg=s900-c-k-c0x00ffffff-no-rj" class="tw-border tw-rounded-full tw-w-10 tw-h-10 tw-mt-3 tw-float-left">
+    </a>
+  <ul nz-menu nzMode="horizontal">
+    <li nz-menu-item>Home</li>
+    <li nz-menu-item routerLink="/login" routerLinkActive="active">Login</li>
+    <li nz-menu-item>Register</li>
+  </ul>
+</nz-header>

@@ -1,0 +1,64 @@
+<div class="tw-max-w-7xl tw-mx-auto">
+  <nz-card
+    class="tw-max-w-[30rem] tw-mx-auto tw-mt-8 tw-rounded-lg"
+    nzTitle="Login"
+  >
+    <form nz-form [formGroup]="signInFormGroup">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              id="username_input"
+              placeholder="Username"
+              class="tw-h-10 tw-text-sm tw-rounded-md"
+              formControlName="username"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input
+              type="password"
+              nz-input
+              id="password_input"
+              placeholder="Password"
+              class="tw-h-10 tw-text-sm tw-rounded-md"
+              formControlName="password"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div *ngIf="errorMsg">
+        <nz-alert nzType="error" [nzMessage]="errorMsg"></nz-alert>
+      </div>
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox
+            >Remember me</label
+          >
+        </nz-form-control>
+      </nz-form-item>
+      <div></div>
+      <div class="tw-w-full tw-text-center tw-my-3">
+        <button
+          (click)="onLogin()"
+          nz-button
+          nzType="primary"
+          class="tw-text-lg tw-h-10"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </nz-card>
+</div>
+<ng-template #prefixTemplateUser
+  ><span nz-icon nzType="user"></span
+></ng-template>
+<ng-template #prefixTemplatePassword
+  ><span nz-icon nzType="ellipsis" nzTheme="outline"></span
+></ng-template>

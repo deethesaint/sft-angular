@@ -33,7 +33,13 @@ export const shellRoutes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [AuthGuard],
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../../+login/login.routes'),
+      }
+    ]
   },
 ];

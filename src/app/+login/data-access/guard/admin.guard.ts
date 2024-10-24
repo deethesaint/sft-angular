@@ -8,5 +8,7 @@ export class AdminGuard implements CanActivate {
   constructor() {}
   canActivate(): boolean {
     return true;
+    // return false if user role is not admin
+    // return false;
   }
 }

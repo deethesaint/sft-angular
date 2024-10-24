@@ -3,7 +3,8 @@ export namespace Login {
         user: {
             username: string,
             role: string,
-        }
+        },
+        accessToken: string,
     };
 
     export type Request = {

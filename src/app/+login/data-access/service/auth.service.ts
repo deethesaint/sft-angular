@@ -9,8 +9,8 @@ import { Observable, map } from "rxjs";
 })
 export class AuthService {
     constructor(
-        private _http: HttpClient
-    ) { }
+        private _http: HttpClient,
+    ) {}
 
     loginPost(request: Login.Request) {
         return this._http

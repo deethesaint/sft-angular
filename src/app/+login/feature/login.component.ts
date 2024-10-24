@@ -70,7 +70,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSuccess(response: ResponseResult<Login.Response>) {
-    console.log(response);
+    localStorage.setItem("token", JSON.stringify(response.responseData?.accessToken) ?? "");
+    localStorage.setItem("role", JSON.stringify(response.responseData?.user.role) ?? "");
     this._router.navigate(['/home']);
   }
 

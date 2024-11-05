@@ -3,7 +3,8 @@
         <img src="https://yt3.googleusercontent.com/y4J_Fs5ksRlxx6_LzT1VKxVqH_T8Vyn_RN_YYgLJhuMzBS5qxTgm7NlEcMkQd3hgCpfWtYcEUg=s900-c-k-c0x00ffffff-no-rj" class="tw-border tw-rounded-full tw-w-10 tw-h-10 tw-mt-3 tw-float-left">
     </a>
   <ul nz-menu nzMode="horizontal">
-    <li nz-menu-item>Home</li>
+    <li nz-menu-item routerLink="/home" routerLinkActive="active">Home</li>
+    <li nz-menu-item routerLink="/jobs" routerLinkActive="active">Jobs</li>
     <ng-container *ngIf="!isLoggedIn()">
       <li nz-menu-item routerLink="/login" routerLinkActive="active">Login</li>
       <li nz-menu-item>Register</li>
@@ -16,7 +17,7 @@
   <ng-container *ngIf="isLoggedIn()">
     <div class="tw-flex-grow">
       <div class="tw-grid tw-justify-items-end">
-        <img nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" src="https://avatars.githubusercontent.com/u/92918544?v=4" class="tw-border tw-rounded-full tw-w-10 tw-h-10 tw-mt-3 tw-float-left">
+        <img nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" src="https://avatars.githubusercontent.com/u/92918544?v=4" class="tw-border tw-rounded-full tw-w-10 tw-h-10 tw-mt-3 tw-float-left tw-cursor-pointer">
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item>Profile</li>

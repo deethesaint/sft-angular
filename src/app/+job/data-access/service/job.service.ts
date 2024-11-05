@@ -1,8 +1,7 @@
-import { HttpClient, HttpParams, HttpRequest } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Jobs } from "../model/job.model";
 import { ResponseResult, Rows } from "../../../shared/data-access/interface/response.type";
-import { Observable, map } from "rxjs";
 
 @Injectable({
     providedIn: 'root'

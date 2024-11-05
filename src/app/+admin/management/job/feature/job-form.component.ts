@@ -4,6 +4,9 @@ import { Component, OnInit } from '@angular/core';
     selector: 'job-form',
     standalone: true,
     template: `
+        <div [class]="{'tw-hidden': isHidden}">
+            
+        </div>
     `
 })
 

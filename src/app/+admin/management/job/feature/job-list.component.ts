@@ -19,7 +19,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ],
     styles: `
         nz-table[_ngcontent-jjj-c198] nz-pagination[_ngcontent-jjj-c198] {
-            justify-content: center;
+                justify-content: center;
         }
     `,
     template: `

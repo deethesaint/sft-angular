@@ -15,10 +15,14 @@ export class AuthService {
     loginPost(request: Login.Request) {
         return this._http
             .post<ResponseResult<Login.Response>>('login', request)
-            .pipe(
-                map((response) => {
-                    console.log(response);
-                    return response;
-                }));
+    }
+
+    isLoggedIn() {
+        return !!localStorage.getItem("token")
+    }
+
+    isAdmin() {
+        const role = localStorage.getItem("role");
+        return role === 'admin';
     }
 }

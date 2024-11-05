@@ -1,10 +1,29 @@
-<nz-header class="tw-bg-white">
+<nz-header class="tw-bg-white tw-flex tw-flex-wrap">
     <a routerLink="/home" routerLinkActive="active">
         <img src="https://yt3.googleusercontent.com/y4J_Fs5ksRlxx6_LzT1VKxVqH_T8Vyn_RN_YYgLJhuMzBS5qxTgm7NlEcMkQd3hgCpfWtYcEUg=s900-c-k-c0x00ffffff-no-rj" class="tw-border tw-rounded-full tw-w-10 tw-h-10 tw-mt-3 tw-float-left">
     </a>
   <ul nz-menu nzMode="horizontal">
     <li nz-menu-item>Home</li>
-    <li nz-menu-item routerLink="/login" routerLinkActive="active">Login</li>
-    <li nz-menu-item>Register</li>
+    <ng-container *ngIf="!isLoggedIn()">
+      <li nz-menu-item routerLink="/login" routerLinkActive="active">Login</li>
+      <li nz-menu-item>Register</li>
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn()">
+      
+      <li *ngIf="isAdmin()" nz-menu-item routerLink="/admin" routerLinkActive="active">Admin</li>
+    </ng-container>
   </ul>
+  <ng-container *ngIf="isLoggedIn()">
+    <div class="tw-flex-grow">
+      <div class="tw-grid tw-justify-items-end">
+        <img nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" src="https://avatars.githubusercontent.com/u/92918544?v=4" class="tw-border tw-rounded-full tw-w-10 tw-h-10 tw-mt-3 tw-float-left">
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>Profile</li>
+            <li (click)="logOut()" nz-menu-item routerLink="/logout" routerLinkActive="active">Logout</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+  </ng-container>
 </nz-header>

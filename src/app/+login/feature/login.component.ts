@@ -11,7 +11,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../data-access/service/auth.service';
 import { validateUsername } from '../../shared/utils/form-validator/username.validator';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, map, of, tap } from 'rxjs';
 import { ResponseResult } from '../../shared/data-access/interface/response.type';
 import { Login } from '../data-access/model/login.model';
 import { Router } from '@angular/router';
@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   passwordVisible: boolean = false;
   errorMsg: string = "";
-  signInFormGroup!: FormGroup;
+  signInFormGroup: FormGroup;
   // isEdit: boolean = false;
   constructor(
     private _fb: FormBuilder,
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       Object.values(this.signInFormGroup.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
+          control.updateValueAndValidity({onlySelf: true});
         }
       });
       return;
@@ -82,13 +82,12 @@ export class LoginComponent implements OnInit {
   }
 
   onSuccess(response: ResponseResult<Login.Response>) {
-    localStorage.setItem("token", JSON.stringify(response.responseData?.token) ?? "");
-    localStorage.setItem("role", JSON.stringify(response.responseData?.role) ?? "");
+    localStorage.setItem("token", response.responseData?.token ?? "");
+    localStorage.setItem("role", response.responseData?.role ?? "");
     this._router.navigate(['/home']);
   }
 
   onError(error: ResponseResult<any>) {
-    this.errorMsg = "Invalid username or password!";
-    this._changeDetectorRef.markForCheck();
+
   }
 }

@@ -7,6 +7,7 @@ export interface ResponseResult<T> {
   path: string;
   timestamp: number;
 }
+
 export interface Rows<T> {
   rows: T[];
   page: number;

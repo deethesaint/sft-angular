@@ -1,0 +1,30 @@
+<div class="tw-max-w-3xl tw-mx-auto">
+    <div class="tw-flex tw-flex-row tw-flex-wrap tw-mt-6">
+        <nz-card *ngFor="let job of jobList?.rows" class="tw-w-full tw-my-1 hover:tw-scale-105 tw-transition" [nzTitle]="job.title" [nzExtra]="companyLink">
+            <ng-template #companyLink>
+                <a href="{{ job.company_url }}">{{ job.company_url }}</a>
+            </ng-template>
+            <div class="tw-flex tw-flex-cols tw-flex-wrap tw-gap-3">
+                <div class="tw-pointer-events-auto tw-flex">
+                    <nz-avatar class="tw-my-auto" nzSrc="{{ job.company_logo }}"></nz-avatar>
+                </div>
+                <div>
+                    <p>Created at: {{ job.created_at | date: 'dd/mm/YYYY'}}</p>
+                    <p>Company name: {{ job.company }}</p>
+                    <p>Location: {{ job.location }}</p>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+        </nz-card>
+        
+
+        <div class="tw-w-full tw-grid tw-justify-items-center tw-my-3">
+            <nz-pagination (nzPageIndexChange)="onPageIndexChange($event)" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="jobList?.itemCount || 0 * 10">
+
+            </nz-pagination>
+        </div>
+    </div>
+
+</div>

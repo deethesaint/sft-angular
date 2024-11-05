@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Jobs } from "../model/job-manager.model";
+import { JobApi } from "../model/job-manager.model";
 import { ResponseResult, Rows } from "../../../../../shared/data-access/interface/response.type";
 
 @Injectable({
@@ -10,7 +10,7 @@ export class JobManagerService {
     constructor(private _http: HttpClient) {}
 
     jobsGet(pageIndex: number = 1, pageSize: number = 5) {
-        return this._http.get<ResponseResult<Rows<Jobs.Job>>>('jobs', { 
+        return this._http.get<ResponseResult<Rows<JobApi.Response>>>('jobs', { 
             params: {
                 page: pageIndex,
                 take: pageSize
@@ -18,17 +18,15 @@ export class JobManagerService {
         });
     }
 
-    jobsPost(request: Jobs.Request) {
-        return this._http.post<ResponseResult<Jobs.Response>>('jobs', request);
+    jobsPost(request: JobApi.Request) {
+        return this._http.post<ResponseResult<JobApi.Request>>('jobs', request);
     }
 
-    jobsPut(request: Jobs.Request) {
-        return this._http.put<ResponseResult<Jobs.Response>>('jobs', request);
+    jobsPut(request: JobApi.Request) {
+        return this._http.put<ResponseResult<JobApi.Request>>('jobs', request);
     }
 
-    jobsDelete(request: Jobs.Request) {
-        return this._http.delete<ResponseResult<Jobs.Response>>('jobs', {
-            body: request
-        });
+    jobsDelete(id: number) {
+        return this._http.delete<ResponseResult<JobApi.Request>>('jobs');
     }
 }

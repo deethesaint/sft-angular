@@ -1,6 +1,6 @@
-export namespace Jobs {
-    export type Job = {
-        id:            null | string;
+export namespace JobApi {
+    export interface Response {
+        id:            string;
         type:          string;
         created_at:    string;
         company:       string;
@@ -13,21 +13,7 @@ export namespace Jobs {
         url?:          string;
     }
 
-    export interface GetResponse {
-        items: Job[];
-        total: number
-    }
-
-    export type GetRequest = {
-        
-    }
-
-    export interface Response {
-        newItem: Job
-    }
-
-    export type Request = {
-        id:            string;
+    export interface Request {
         type:          string;
         created_at:    string;
         company:       string;

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { JobManagerService } from '../data-access/service/job-manager.service';
 import { catchError, of, tap } from 'rxjs';
 import { ResponseResult, Rows } from '../../../../shared/data-access/interface/response.type';
-import { Jobs } from '../data-access/model/job-manager.model';
+import { JobApi } from '../data-access/model/job-manager.model';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
@@ -15,38 +15,49 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
         CommonModule,
         NzLayoutModule,
         NzTableModule,
-        NzButtonModule
+        NzButtonModule,
     ],
+    styles: `
+        nz-table[_ngcontent-jjj-c198] nz-pagination[_ngcontent-jjj-c198] {
+            justify-content: center;
+        }
+    `,
     template: `
         <nz-content class="tw-my-3">
-            <button nz-button nzType="primary">Create new job</button>
             <nz-table 
                 #rowTable
                 [nzData]="jobsList"
                 [nzPageSize]="5"
                 nzShowPagination
                 nzShowSizeChanger
+                
                 [nzPageSizeOptions]="[5, 10, 25, 50, 100]"
                 class="tw-my-3"
                 >
                 <thead>
                     <tr>
-                        <th class="tw-text-start">
+                        <th>
+                            Ord.
+                        </th>
+                        <th>
                             Title
                         </th>
-                        <th class="tw-text-start">
+                        <th>
                             Company
                         </th>
-                        <th class="tw-text-start">
+                        <th>
                             Created at
                         </th>
-                        <th class="tw-text-start">
+                        <th>
                             Actions
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let job of rowTable.data" class="tw-border-b">
+                    <tr *ngFor="let job of rowTable.data; let idx = index" class="tw-border-b">
+                        <td>
+                            <p> {{ rowTable.nzPageSize * (rowTable.nzPageIndex - 1) + idx }}</p>
+                        </td>
                         <td>
                             <p>{{ job.title }}</p>
                         </td>
@@ -71,7 +82,7 @@ export class JobListComponent implements OnInit {
 
     pageIndex: number = 1;
     pageSize: number = 999;
-    jobsList: Jobs.Job[] = [];
+    jobsList: JobApi.Response[] = [];
     @Output() pageIndexChange: EventEmitter<number> = new EventEmitter<number>;
 
     constructor(private _service: JobManagerService, private _cdr: ChangeDetectorRef) { }
@@ -82,7 +93,7 @@ export class JobListComponent implements OnInit {
     getAllJobs(pageIndex: number = 1, pageSize: number = 5) {
         this._service.jobsGet(pageIndex, pageSize)
             .pipe(
-                tap((response: ResponseResult<Rows<Jobs.Job>>) => {
+                tap((response: ResponseResult<Rows<JobApi.Response>>) => {
                     this.jobsList = response.responseData?.rows || [];
                     console.log(this.jobsList);
                     this._cdr.markForCheck();

@@ -11,7 +11,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../data-access/service/auth.service';
 import { validateUsername } from '../../shared/utils/form-validator/username.validator';
-import { catchError, map, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { ResponseResult } from '../../shared/data-access/interface/response.type';
 import { Login } from '../data-access/model/login.model';
 import { Router } from '@angular/router';
@@ -31,7 +31,6 @@ import { Router } from '@angular/router';
     NzAlertModule,
     NzFormModule,
     ReactiveFormsModule,
-    JsonPipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -43,7 +42,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private _changeDetectorRef: ChangeDetectorRef,
     private _router: Router
   ) {
     this.signInFormGroup = this._fb.group({
@@ -82,6 +80,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSuccess(response: ResponseResult<Login.Response>) {
+    console.log(response.responseData?.token);
     localStorage.setItem("token", response.responseData?.token ?? "");
     localStorage.setItem("role", response.responseData?.role ?? "");
     this._router.navigate(['/home']);

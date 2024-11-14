@@ -18,15 +18,19 @@ export class JobManagerService {
         });
     }
 
+    jobsGetOne(id: string) {
+        return this._http.get<ResponseResult<JobApi.Response>>('jobs/' + id);
+    }
+
     jobsPost(request: JobApi.Request) {
         return this._http.post<ResponseResult<JobApi.Request>>('jobs', request);
     }
 
-    jobsPut(request: JobApi.Request) {
-        return this._http.put<ResponseResult<JobApi.Request>>('jobs', request);
+    jobsPut(id: string, request: JobApi.Request) {
+        return this._http.put<ResponseResult<JobApi.Request>>('jobs/' + id, request);
     }
 
-    jobsDelete(id: number) {
-        return this._http.delete<ResponseResult<JobApi.Request>>('jobs');
+    jobsDelete(id: string) {
+        return this._http.delete<ResponseResult<JobApi.Request>>('jobs/' + id);
     }
 }

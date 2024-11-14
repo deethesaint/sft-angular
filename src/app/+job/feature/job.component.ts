@@ -4,7 +4,7 @@ import { CommonModule, DatePipe, JsonPipe, NgFor } from '@angular/common';
 import { JobService } from '../data-access/service/job.service'
 import { ResponseResult, Rows } from '../../shared/data-access/interface/response.type';
 import { Jobs } from '../data-access/model/job.model';
-import { catchError, map, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -17,7 +17,6 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   imports: [
     CommonModule,
     NgFor,
-    JsonPipe,
     NzCardModule,
     NzAvatarModule,
     NzPaginationModule,

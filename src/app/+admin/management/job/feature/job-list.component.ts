@@ -228,7 +228,6 @@ export class JobListComponent implements OnInit {
             tap((response: ResponseResult<JobApi.Request>) => {
                 this.getAllJobs();
                 this.isEdit = false;
-                console.log(response);
             }),
             catchError((err) => {
                 console.log(err);
@@ -245,7 +244,7 @@ export class JobListComponent implements OnInit {
             .pipe(
                 tap((response: ResponseResult<JobApi.Response>) => {
                     this.jobEdittingFormGroup = this._fb.group({
-                        type: [response.responseData?.type, Validators.required],
+                        type: ['', Validators.required],
                         company: [response.responseData?.company, Validators.required],
                         company_url: [response.responseData?.company_url, Validators.required],
                         location: [response.responseData?.location, Validators.required],

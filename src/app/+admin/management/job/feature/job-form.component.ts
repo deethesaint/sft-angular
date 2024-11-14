@@ -51,7 +51,7 @@ import { catchError, of, tap } from 'rxjs';
     `
 })
 
-export class JobFormComponent implements OnInit, OnDestroy {
+export class JobFormComponent implements OnInit {
 
     isCreate: boolean = false;
 
@@ -72,10 +72,6 @@ export class JobFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
-    }
-
-    ngOnDestroy() {
 
     }
 

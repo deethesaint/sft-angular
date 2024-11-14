@@ -8,6 +8,10 @@ import { AuthService } from '../service/auth.service';
 export class LoginGuard implements CanActivate {
   constructor(private _service: AuthService, private _router: Router) {}
   canActivate(): boolean {
-    return !this._service.isLoggedIn();
+    if (this._service.isLoggedIn()) {
+      this._router.navigate(['/home']);
+      return false;
+    }
+    return true;
   }
 }

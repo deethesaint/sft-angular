@@ -19,7 +19,7 @@ export class JobManagerService {
     }
 
     jobsGetOne(id: string) {
-        return this._http.get<ResponseResult<JobApi.Response>>('jobs/' + id);
+        return this._http.get<ResponseResult<JobApi.Response>>(`jobs/${id}`);
     }
 
     jobsPost(request: JobApi.Request) {
@@ -27,10 +27,10 @@ export class JobManagerService {
     }
 
     jobsPut(id: string, request: JobApi.Request) {
-        return this._http.put<ResponseResult<JobApi.Request>>('jobs/' + id, request);
+        return this._http.put<ResponseResult<JobApi.Request>>(`jobs/${id}`, request);
     }
 
     jobsDelete(id: string) {
-        return this._http.delete<ResponseResult<JobApi.Request>>('jobs/' + id);
+        return this._http.delete<ResponseResult<JobApi.Request>>(`jobs/${id}`);
     }
 }

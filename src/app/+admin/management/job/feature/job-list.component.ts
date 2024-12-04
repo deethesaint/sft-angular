@@ -10,8 +10,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { response } from 'express';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
     selector: 'job-list',
@@ -46,30 +46,70 @@ import { NzFormModule } from 'ng-zorro-antd/form';
                     <option value="Full Time">Full Time</option>
                     <option value="Part Time">Part Time</option>
                 </select>
+                <label>Company</label>
                 <nz-form-item>
-                    <label>Company</label>
-                    <nz-form-control nzErrorTip="Please input your username!">
-                    <nz-input-group class="tw-h-12">
-                        <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="company">
-                    </nz-input-group>
+                    <nz-form-control nzErrorTip="Please enter company!">
+                        <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company">
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
-                
-                
                 <label>Company Url</label>
-                <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="company_url">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter company url!">
+                        <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_url">
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
                 <label>Location</label>
-                <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="location">
-                <label>Tilte</label>
-                <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="title">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter location!">
+                        <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="location">
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <label>Title</label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter title!">
+                        <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="title">
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
                 <label>Description</label>
-                <textarea class="tw-border tw-rounded-lg tw-h-20" type="text" formControlName="description"></textarea>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter description!">
+                        <nz-input-group>
+                        <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-20" type="text" formControlName="description"></textarea>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
                 <label>How to Apply</label>
-                <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="how_to_apply">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter 'How to Apply'!">
+                        <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="how_to_apply">
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
                 <label>Company Logo</label>
-                <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="company_logo">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter Company Logo!">
+                        <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
                 <label>Url</label>
-                <input class="tw-border tw-rounded-lg tw-h-8" type="text" formControlName="url">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter Url!">
+                        <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
             </div>
             </form>
         </ng-container>
@@ -144,7 +184,7 @@ export class JobListComponent implements OnInit {
     deletetingId: string = "";
 
     isEdit: boolean = false;
-    edittingId: string  = "";
+    edittingId: string = "";
     jobEdittingFormGroup: FormGroup;
 
     @Output() pageIndexChange: EventEmitter<number> = new EventEmitter<number>;
@@ -152,7 +192,9 @@ export class JobListComponent implements OnInit {
     constructor(
         private _service: JobManagerService,
         private _cdr: ChangeDetectorRef,
-        private _fb: FormBuilder) {
+        private _fb: FormBuilder,
+        private _notification: NzNotificationService
+    ) {
         this.jobEdittingFormGroup = this._fb.group({
             type: ['Full Time', Validators.required],
             company: ['', Validators.required],
@@ -170,7 +212,15 @@ export class JobListComponent implements OnInit {
         this.getAllJobs(this.pageIndex, this.pageSize);
     }
 
-    getAllJobs(pageIndex: number = 1, pageSize: number = 5) {
+    createNotification(type: string, title: string, message: string) {
+        this._notification.create(
+            type,
+            title,
+            message
+        );
+    }
+
+    getAllJobs(pageIndex: number = this.pageIndex, pageSize: number = 5) {
         this._service.jobsGet(pageIndex, pageSize)
             .pipe(
                 tap((response: ResponseResult<Rows<JobApi.Response>>) => {
@@ -200,9 +250,18 @@ export class JobListComponent implements OnInit {
             pipe(
                 tap((response: ResponseResult<JobApi.Request>) => {
                     this.getAllJobs();
+                    this.createNotification(
+                        'success',
+                        'Success!',
+                        'You have deleted a job successfully!'
+                    );
                 }),
                 catchError((err) => {
-                    console.log(err);
+                    this.createNotification(
+                        'error',
+                        'Error!',
+                        'An error has occurred! Please try later!'
+                    );
                     return of(null);
                 })
             )
@@ -224,17 +283,18 @@ export class JobListComponent implements OnInit {
         }
         this.jobEdittingFormGroup.markAllAsTouched();
         this._service.jobsPut(this.edittingId, data)
-        .pipe(
-            tap((response: ResponseResult<JobApi.Request>) => {
-                this.getAllJobs();
-                this.isEdit = false;
-            }),
-            catchError((err) => {
-                console.log(err);
-                return of(null);
-            })
-        )
-        .subscribe();
+            .pipe(
+                tap((response: ResponseResult<JobApi.Request>) => {
+                    this.getAllJobs();
+                    this.isEdit = false;
+                }),
+                catchError((err) => {
+                    console.log(err);
+                    return of(null);
+                })
+            )
+            .subscribe();
+            this.isEdit = false;
     }
 
     onEditOpen(id: string) {
@@ -244,7 +304,7 @@ export class JobListComponent implements OnInit {
             .pipe(
                 tap((response: ResponseResult<JobApi.Response>) => {
                     this.jobEdittingFormGroup = this._fb.group({
-                        type: ['', Validators.required],
+                        type: [response.responseData?.type, Validators.required],
                         company: [response.responseData?.company, Validators.required],
                         company_url: [response.responseData?.company_url, Validators.required],
                         location: [response.responseData?.location, Validators.required],

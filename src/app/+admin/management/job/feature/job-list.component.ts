@@ -37,79 +37,97 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
             <p>Are you sure you want to delete this job?</p>
         </ng-container>
         </nz-modal>
-        <nz-modal [(nzVisible)]="isEdit" nzTitle="Create new job" nzCancelText="Cancel" nzOkText="Confirm" (nzOnCancel)="isEdit = false" (nzOnOk)="onEditSubmit()">
+        <nz-modal [(nzVisible)]="isEdit" nzTitle="Create new job" nzCancelText="Cancel" nzOkText="Confirm" (nzOnCancel)="isEdit = false" (nzOnOk)="onEditSubmit()" nzWidth="720px">
         <ng-container *nzModalContent>
             <form nz-form [formGroup]="jobEdittingFormGroup">
-            <div class="tw-flex tw-flex-col tw-flex-wrap tw-gap-y-1">
-            <label>Type</label>
-                <select class="tw-border tw-rounded-lg tw-h-8" formControlName="type">
-                    <option value="Full Time">Full Time</option>
-                    <option value="Part Time">Part Time</option>
-                </select>
-                <label>Company</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter company!">
-                        <nz-input-group>
-                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Company Url</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter company url!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_url">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Location</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter location!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="location">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Title</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter title!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="title">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Description</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter description!">
-                        <nz-input-group>
-                        <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-20" type="text" formControlName="description"></textarea>
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>How to Apply</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter 'How to Apply'!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="how_to_apply">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Company Logo</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter Company Logo!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Url</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter Url!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
+            <div class="tw-grid tw-grid-cols-3 tw-gap-2">
+                <div>
+                    <label>Type</label>
+                    <select class="tw-border tw-rounded-lg tw-w-full tw-h-8" formControlName="type">
+                        <option value="Full Time">Full Time</option>
+                        <option value="Part Time">Part Time</option>
+                    </select>
+                </div>
+                <div class="tw-col-span-2">
+                    <label>Company</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter company!">
+                            <nz-input-group>
+                                <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div>
+                    <label>Company Url</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter company url!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_url">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-2">
+                    <label>Location</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter location!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="location">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Title</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter title!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="title">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Description</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter description!">
+                            <nz-input-group>
+                            <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-40" type="text" formControlName="description"></textarea>
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>How to Apply</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter 'How to Apply'!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="how_to_apply">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Company Logo</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter Company Logo!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Url</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter Url!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    </div>
             </div>
             </form>
         </ng-container>
@@ -173,7 +191,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
       </nz-pagination>
     </div>
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JobListComponent implements OnInit {
     pageIndex: number = 1;
@@ -225,7 +243,6 @@ export class JobListComponent implements OnInit {
             .pipe(
                 tap((response: ResponseResult<Rows<JobApi.Response>>) => {
                     this.jobsList = response.responseData;
-                    console.log(this.jobsList);
                     this._cdr.markForCheck();
                 }),
                 catchError((err) => {
@@ -286,15 +303,13 @@ export class JobListComponent implements OnInit {
             .pipe(
                 tap((response: ResponseResult<JobApi.Request>) => {
                     this.getAllJobs();
-                    this.isEdit = false;
                 }),
                 catchError((err) => {
-                    console.log(err);
                     return of(null);
                 })
             )
             .subscribe();
-            this.isEdit = false;
+        this.isEdit = false;
     }
 
     onEditOpen(id: string) {
@@ -303,17 +318,18 @@ export class JobListComponent implements OnInit {
         this._service.jobsGetOne(id)
             .pipe(
                 tap((response: ResponseResult<JobApi.Response>) => {
-                    this.jobEdittingFormGroup = this._fb.group({
-                        type: [response.responseData?.type, Validators.required],
-                        company: [response.responseData?.company, Validators.required],
-                        company_url: [response.responseData?.company_url, Validators.required],
-                        location: [response.responseData?.location, Validators.required],
-                        title: [response.responseData?.title, Validators.required],
-                        description: [response.responseData?.description, Validators.required],
-                        how_to_apply: [response.responseData?.how_to_apply, Validators.required],
-                        company_logo: [response.responseData?.company_logo, Validators.required],
-                        url: [response.responseData?.url],
+                    this.jobEdittingFormGroup.patchValue({
+                        type: response.responseData?.type,
+                        company: response.responseData?.company,
+                        company_url: response.responseData?.company_url,
+                        location: response.responseData?.location,
+                        title: response.responseData?.title,
+                        description: response.responseData?.description,
+                        how_to_apply: response.responseData?.how_to_apply,
+                        company_logo: response.responseData?.company_logo,
+                        url: response.responseData?.url,
                     });
+                    console.log(this.jobEdittingFormGroup.value);
                 }),
                 catchError((err) => {
                     return of(null);

@@ -22,79 +22,97 @@ import { NzFormModule } from 'ng-zorro-antd/form';
         <div class="tw-w-full tw-grid tw-justify-items-end">
             <button nz-button nzType="primary" (click)="isCreate = true">Create new job</button>
         </div>
-        <nz-modal [(nzVisible)]="isCreate" nzTitle="Create new job" nzCancelText="Cancel" nzOkText="Create" (nzOnCancel)="isCreate = false" (nzOnOk)="onCreateSubmit()">
+        <nz-modal [(nzVisible)]="isCreate" nzTitle="Create new job" nzCancelText="Cancel" nzOkText="Create" (nzOnCancel)="isCreate = false" (nzOnOk)="onCreateSubmit()" nzWidth="720px">
         <ng-container *nzModalContent>
             <form nz-form [formGroup]="jobCreatingFormGroup">
-            <div class="tw-flex tw-flex-col tw-flex-wrap tw-gap-y-1">
-            <label>Type</label>
-                <select class="tw-border tw-rounded-lg tw-h-8" formControlName="type">
-                    <option value="Full Time">Full Time</option>
-                    <option value="Part Time">Part Time</option>
-                </select>
-                <label>Company</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter company!">
-                        <nz-input-group>
-                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Company Url</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter company url!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_url">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Location</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter location!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="location">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Title</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter title!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="title">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Description</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter description!">
-                        <nz-input-group>
-                        <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-20" type="text" formControlName="description"></textarea>
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>How to Apply</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter 'How to Apply'!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="how_to_apply">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Company Logo</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter Company Logo!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-                <label>Url</label>
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Please enter Url!">
-                        <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
+            <div class="tw-grid tw-grid-cols-3 tw-gap-2">
+                <div>
+                    <label>Type</label>
+                    <select class="tw-border tw-rounded-lg tw-w-full tw-h-8" formControlName="type">
+                        <option value="Full Time">Full Time</option>
+                        <option value="Part Time">Part Time</option>
+                    </select>
+                </div>
+                <div class="tw-col-span-2">
+                    <label>Company</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter company!">
+                            <nz-input-group>
+                                <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div>
+                    <label>Company Url</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter company url!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_url">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-2">
+                    <label>Location</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter location!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="location">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Title</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter title!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="title">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Description</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter description!">
+                            <nz-input-group>
+                            <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-40" type="text" formControlName="description"></textarea>
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>How to Apply</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter 'How to Apply'!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="how_to_apply">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Company Logo</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter Company Logo!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="tw-col-span-full">
+                    <label>Url</label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter Url!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    </div>
             </div>
             </form>
         </ng-container>
@@ -164,6 +182,6 @@ export class JobFormComponent {
                 })
             )
             .subscribe();
-            this.isCreate = false;
+        this.isCreate = false;
     }
 }

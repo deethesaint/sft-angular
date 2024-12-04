@@ -22,9 +22,9 @@
           <p>Location: {{ job.location }}</p>
         </div>
         <div class="tw-flex-grow tw-grid tw-justify-end ">
-            <button class="tw-h-10 tw-px-2 tw-border tw-rounded-lg hover:tw-bg-black hover:tw-text-white tw-transition">
-                Apply
-            </button>
+            <button routerLink="/jobs/detail/{{job.id}}" class="tw-h-10 tw-px-2 tw-border tw-rounded-lg hover:tw-bg-black hover:tw-text-white tw-transition">
+              See detail
+          </button>
         </div>
       </div>
     </nz-card>

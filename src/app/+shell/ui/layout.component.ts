@@ -20,7 +20,6 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
   standalone: true,
   imports: [
     RouterModule,
-    DatePipe,
     HeaderComponent,
     FooterComponent,
     NzButtonModule,

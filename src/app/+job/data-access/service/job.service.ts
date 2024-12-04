@@ -21,4 +21,8 @@ export class JobService {
                 }
             });
     }
+
+    jobsGetOne(id: string) {
+        return this._http.get<ResponseResult<Jobs.Job>>(`jobs/${id}`);
+    }
 }

@@ -8,6 +8,7 @@ import { catchError, of, tap } from 'rxjs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'meu-job-list-page',
@@ -20,7 +21,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzCardModule,
     NzAvatarModule,
     NzPaginationModule,
-    DatePipe
+    DatePipe,
+    RouterLink
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

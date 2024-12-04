@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from '../ui/layout.component';
-import { LoginComponent } from '../../+login/feature/login.component';
 import { AuthGuard } from '../../+login/data-access/guard/auth.guard';
 import { AdminGuard } from '../../+login/data-access/guard/admin.guard';
+import { JobComponent } from '../../+job/feature/job.component';
+import { LoginGuard } from '../../+login/data-access/guard/login.guard';
 
 export const shellRoutes: Routes = [
   {
@@ -37,9 +38,20 @@ export const shellRoutes: Routes = [
     children: [
       {
         path: '',
-        canActivate: [AuthGuard],
+        canActivate: [LoginGuard],
         loadChildren: () => import('../../+login/login.routes'),
       }
     ]
   },
+  {
+    path: 'jobs',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        canActivate: [],
+        loadChildren: () => import('../../+job/job.routes')
+      }
+    ]
+  }
 ];

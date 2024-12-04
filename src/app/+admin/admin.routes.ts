@@ -11,6 +11,15 @@ const ADMIN_ROUTES: Route[] = [
         pathMatch: 'full',
         redirectTo: 'configuration',
       },
+      {
+        path: 'jobs',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./management/job/job-manager.routes'),
+          }
+        ]
+      }
     ],
   },
 ];

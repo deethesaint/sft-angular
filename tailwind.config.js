@@ -28,6 +28,8 @@ module.exports = {
     colors: {
       white: "#ffffff",
       black: "#000000",
+      sky: "#a3e4ff",
+      link: "#1484b2"
     },
     fontFamily: {
       "roboto-black": ["Roboto-Black", "sans-serif"],

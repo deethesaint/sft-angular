@@ -1,10 +1,8 @@
 export namespace Login {
     export type Response = {
-        user: {
-            username: string,
-            role: string,
-        },
-        accessToken: string,
+        token: string,
+        expirationTime: number,
+        role: string
     };
 
     export type Request = {

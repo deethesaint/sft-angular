@@ -31,56 +31,62 @@ import { Router } from '@angular/router';
     NzAlertModule,
     NzFormModule,
     ReactiveFormsModule,
-    JsonPipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
-  errorMsg?: string;
-  signInFormGroup!: FormGroup;
-
+  passwordVisible: boolean = false;
+  errorMsg: string = "";
+  signInFormGroup: FormGroup;
+  // isEdit: boolean = false;
   constructor(
-    private _formBuilder: FormBuilder,
+    private _fb: FormBuilder,
     private _authService: AuthService,
-    private _changeDetectorRef: ChangeDetectorRef,
     private _router: Router
-  ) {}
+  ) {
+    this.signInFormGroup = this._fb.group({
+      username: ['', [Validators.required, validateUsername]],
+      password: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
-    this.signInFormGroup = this._formBuilder.group({
-      username: [null, [Validators.required, validateUsername]],
-      password: [null, Validators.required],
-    });
+
   }
 
   onLogin() {
     const data = this.signInFormGroup.value;
+    if (!this.signInFormGroup.valid) {
+      Object.values(this.signInFormGroup.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({onlySelf: true});
+        }
+      });
+      return;
+    }
     this.signInFormGroup.markAllAsTouched();
     this._authService.loginPost(data)
-    .pipe(
-      tap((response: ResponseResult<Login.Response>) => {
-        this.onSuccess(response);
-      }),
-      catchError((error: ResponseResult<any>) => {
-        this.onError(error);
-        return of(null);
-      })
-    )
-    .subscribe();
+      .pipe(
+        tap((response: ResponseResult<Login.Response>) => {
+          this.onSuccess(response);
+        }),
+        catchError((error: ResponseResult<any>) => {
+          this.onError(error);
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   onSuccess(response: ResponseResult<Login.Response>) {
-    localStorage.setItem("token", JSON.stringify(response.responseData?.accessToken) ?? "");
-    localStorage.setItem("role", JSON.stringify(response.responseData?.user.role) ?? "");
+    console.log(response.responseData?.token);
+    localStorage.setItem("token", response.responseData?.token ?? "");
+    localStorage.setItem("role", response.responseData?.role ?? "");
     this._router.navigate(['/home']);
   }
 
   onError(error: ResponseResult<any>) {
-    if (error.status === 401) {
-      this.errorMsg = "Invalid username or password!";
-    } else {
-      this.errorMsg = "An error has occurred! Please try later.";
-    }
-    this._changeDetectorRef.markForCheck();
+
   }
 }

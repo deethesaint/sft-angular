@@ -5,13 +5,11 @@ import { AuthService } from '../service/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
   constructor(private _service: AuthService, private _router: Router) {}
   canActivate(): boolean {
-    const isLoggedIn = this._service.isLoggedIn();
-    const isAdmin = this._service.isAdmin();
-    if (!isLoggedIn || !isAdmin) {
-      this._router.navigate(['/']);
+    if (this._service.isLoggedIn()) {
+      this._router.navigate(['/home']);
       return false;
     }
     return true;

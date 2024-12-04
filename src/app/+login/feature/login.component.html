@@ -5,30 +5,36 @@
   >
     <form nz-form [formGroup]="signInFormGroup">
       <nz-form-item>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group class="tw-h-12">
             <input
               type="text"
               nz-input
-              id="username_input"
               placeholder="Username"
-              class="tw-h-10 tw-text-sm tw-rounded-md"
+              class="tw-text-sm tw-rounded-md"
               formControlName="username"
             />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-control nzErrorTip="Please input your password!">
+          <nz-input-group [nzSuffix]="suffixTemplate" class="tw-h-12">
             <input
               type="password"
               nz-input
-              id="password_input"
+              [type]="passwordVisible ? 'text' : 'password'"
               placeholder="Password"
-              class="tw-h-10 tw-text-sm tw-rounded-md"
+              class="tw-text-sm tw-rounded-md"
               formControlName="password"
             />
+            <ng-template #suffixTemplate>
+              <span
+                nz-icon
+                [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                (click)="passwordVisible = !passwordVisible"
+              ></span>
+            </ng-template>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -37,9 +43,7 @@
       </div>
       <nz-form-item>
         <nz-form-control>
-          <label nz-checkbox
-            >Remember me</label
-          >
+          <label nz-checkbox>Remember me</label>
         </nz-form-control>
       </nz-form-item>
       <div></div>

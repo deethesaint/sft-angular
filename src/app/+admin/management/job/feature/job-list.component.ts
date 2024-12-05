@@ -9,7 +9,7 @@ import { JobApi } from '../data-access/model/job-manager.model';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -24,7 +24,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
         NzModalModule,
         NzPaginationModule,
         ReactiveFormsModule,
-        NzFormModule
+        NzFormModule,
+        FormsModule
     ],
     styles: `
         nz-table[_ngcontent-jjj-c198] nz-pagination[_ngcontent-jjj-c198] {
@@ -182,6 +183,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
             </nz-table>
         </nz-content>
         <div class="tw-w-full tw-grid tw-justify-items-center tw-my-3">
+      <div class="tw-flex tw-flex-row tw-gap-x-6">
       <nz-pagination
         (nzPageIndexChange)="onPageIndexChange($event)"
         [nzPageIndex]="pageIndex"
@@ -189,6 +191,17 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
         [nzTotal]="jobsList?.itemCount || 0 * 10"
       >
       </nz-pagination>
+        <div class="tw-my-auto">
+            <label>Item per page</label>
+            <select class="tw-h-8 tw-border tw-ms-3" [(ngModel)]="pageSize" (change)="onPageSizeChanged()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+            </select>
+        </div>
+      </div>
     </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -254,7 +267,13 @@ export class JobListComponent implements OnInit {
 
     onPageIndexChange(index: number) {
         this.pageIndex = index;
-        this.getAllJobs(index, 5);
+        this.getAllJobs(this.pageIndex, this.pageSize);
+    }
+
+    onPageSizeChanged() {
+        this.pageIndex = 1;
+        this.getAllJobs(this.pageIndex, this.pageSize);
+        console.log(this.pageSize)
     }
 
     showConfirmModal(id: string) {
@@ -302,9 +321,19 @@ export class JobListComponent implements OnInit {
         this._service.jobsPut(this.edittingId, data)
             .pipe(
                 tap((response: ResponseResult<JobApi.Request>) => {
+                    this.createNotification(
+                        'success',
+                        'Success!',
+                        'You have updated job successfully!'
+                    )
                     this.getAllJobs();
                 }),
                 catchError((err) => {
+                    this.createNotification(
+                        'error',
+                        'Error!',
+                        'An error has occurred! Please try later!'
+                    )
                     return of(null);
                 })
             )
@@ -329,7 +358,6 @@ export class JobListComponent implements OnInit {
                         company_logo: response.responseData?.company_logo,
                         url: response.responseData?.url,
                     });
-                    console.log(this.jobEdittingFormGroup.value);
                 }),
                 catchError((err) => {
                     return of(null);

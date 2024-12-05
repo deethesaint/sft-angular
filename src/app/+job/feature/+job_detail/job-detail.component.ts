@@ -9,7 +9,6 @@ import { Jobs } from '../../data-access/model/job.model';
     selector: 'job-detail',
     standalone: true,
     template: `
-    <div class="tw-max-w-4xl tw-mx-auto tw-my-3">
         <div class="tw-w-full tw-gap-y-2 tw-flex tw-flex-col">
             <p class="tw-text-2xl tw-font-bold tw-border-b">{{ job?.title }}</p>
             <p> {{ job?.created_at }} by {{ job?.company }} </p>
@@ -40,7 +39,6 @@ import { Jobs } from '../../data-access/model/job.model';
                 </div>
             </div>
         </div>
-    </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

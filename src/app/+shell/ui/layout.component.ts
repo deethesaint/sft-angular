@@ -33,7 +33,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
       <nz-layout>
       <meu-header></meu-header>
       <div class="tw-relative tw-min-h-[92dvh]">
-        <div class="tw-max-w-5xl tw-bg-white tw-mx-auto">
+        <div class="tw-max-w-5xl tw-bg-white tw-mx-auto tw-py-10 tw-px-3 tw-shadow-xl">
           <router-outlet></router-outlet>
         </div>
       </div>

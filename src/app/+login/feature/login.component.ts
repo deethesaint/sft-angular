@@ -11,10 +11,12 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../data-access/service/auth.service';
 import { validateUsername } from '../../shared/utils/form-validator/username.validator';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, finalize, of, tap } from 'rxjs';
 import { ResponseResult } from '../../shared/data-access/interface/response.type';
 import { Login } from '../data-access/model/login.model';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'meu-login',
@@ -30,19 +32,22 @@ import { Router } from '@angular/router';
     NzCheckboxModule,
     NzAlertModule,
     NzFormModule,
+    NzSpinModule,
     ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
+  isLoggingIn: boolean = false;
   passwordVisible: boolean = false;
   errorMsg: string = "";
   signInFormGroup: FormGroup;
-  // isEdit: boolean = false;
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private _router: Router
+    private _router: Router,
+    private _cdr: ChangeDetectorRef,
+    private _notifcation: NzNotificationService
   ) {
     this.signInFormGroup = this._fb.group({
       username: ['', [Validators.required, validateUsername]],
@@ -66,6 +71,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.signInFormGroup.markAllAsTouched();
+    this.isLoggingIn = true;
     this._authService.loginPost(data)
       .pipe(
         tap((response: ResponseResult<Login.Response>) => {
@@ -74,19 +80,27 @@ export class LoginComponent implements OnInit {
         catchError((error: ResponseResult<any>) => {
           this.onError(error);
           return of(null);
+        }),
+        finalize(() => {
+            this.isLoggingIn = false;
+            this._cdr.markForCheck();
         })
       )
       .subscribe();
   }
 
   onSuccess(response: ResponseResult<Login.Response>) {
-    console.log(response.responseData?.token);
     localStorage.setItem("token", response.responseData?.token ?? "");
     localStorage.setItem("role", response.responseData?.role ?? "");
+    this._notifcation.create(
+      'success',
+      'Login successfully!',
+      ''
+    );
     this._router.navigate(['/home']);
   }
 
   onError(error: ResponseResult<any>) {
-
+    this.errorMsg = "Invalid username or password!";
   }
 }

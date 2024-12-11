@@ -12,6 +12,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
     selector: 'job-list',
@@ -25,6 +26,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
         NzPaginationModule,
         ReactiveFormsModule,
         NzFormModule,
+        NzIconModule,
         FormsModule
     ],
     styles: `
@@ -134,10 +136,20 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
         </ng-container>
         </nz-modal>
         <nz-content class="tw-my-3">
+            <div class="tw-flex tw-gap-3">
+            <nz-form-item class="tw-flex-1">
+                <nz-form-control>
+                    <nz-input-group>
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8">
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <button type="button" class="tw-border tw-rounded-md tw-h-8 tw-px-3 tw-bg-sky"><span nz-icon nzType="search" nzTheme="outline"></span></button>
+        </div>
             <nz-table 
                 #rowTable
                 [nzData]="['']"
-                [nzPageSize]="5"
+                [nzPageSize]="pageSize"
                 [nzFrontPagination]="false"
                 class="tw-my-3"
                 >

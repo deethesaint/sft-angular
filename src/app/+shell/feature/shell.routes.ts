@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from '../ui/layout.component';
-import { AuthGuard } from '../../+login/data-access/guard/auth.guard';
 import { AdminGuard } from '../../+login/data-access/guard/admin.guard';
-import { JobComponent } from '../../+job/feature/job.component';
 import { LoginGuard } from '../../+login/data-access/guard/login.guard';
 
 export const shellRoutes: Routes = [

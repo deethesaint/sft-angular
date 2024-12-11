@@ -51,10 +51,12 @@
         <button
           (click)="onLogin()"
           nz-button
-          nzType="primary"
-          class="tw-text-lg tw-h-10"
+          nzType="default"
+          class="tw-text-lg tw-h-10 tw-w-24"
+          (disabled)="isLoggingIn"
         >
-          Login
+          <nz-spin *ngIf="isLoggingIn" nzSimple></nz-spin>
+          <span *ngIf="!isLoggingIn">Login</span>
         </button>
       </div>
     </form>

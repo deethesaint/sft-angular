@@ -1,11 +1,10 @@
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { CommonModule } from '@angular/common';
 import { AdminHeaderComponent } from "./components/header/feature/header.component";
 import { AdminFooterComponent } from "./components/footer/feature/footer.component";
-import { JobListComponent } from "../../../management/job/feature/job-list.component";
 
 @Component({
   selector: 'admin-layout',
@@ -13,12 +12,10 @@ import { JobListComponent } from "../../../management/job/feature/job-list.compo
   imports: [
     RouterOutlet,
     NzLayoutModule,
-    RouterLink,
     RouterModule,
     CommonModule,
     AdminHeaderComponent,
     AdminFooterComponent,
-    JobListComponent
 ],
   template: ` <nz-content>
     <div class="tw-container">

@@ -126,7 +126,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
                     <nz-form-item>
                         <nz-form-control nzErrorTip="Please enter Url!">
                             <nz-input-group>
-                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
+                            <input [(ngModel)]="searchString" (change)="getAllJobs()" class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
                             </nz-input-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -140,7 +140,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
             <nz-form-item class="tw-flex-1">
                 <nz-form-control>
                     <nz-input-group>
-                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8">
+                        <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" [(ngModel)]="searchString">
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
@@ -223,6 +223,8 @@ export class JobListComponent implements OnInit {
     pageSize: number = 5;
     jobsList: Rows<JobApi.Response> | null = null;
 
+    searchString: string = "";
+
     isDeleting: boolean = false;
     deletetingId: string = "";
 
@@ -263,7 +265,7 @@ export class JobListComponent implements OnInit {
         );
     }
 
-    getAllJobs(pageIndex: number = this.pageIndex, pageSize: number = 5) {
+    getAllJobs(pageIndex: number = this.pageIndex, pageSize: number = this.pageSize) {
         this._service.jobsGet(pageIndex, pageSize)
             .pipe(
                 tap((response: ResponseResult<Rows<JobApi.Response>>) => {

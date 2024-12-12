@@ -17,7 +17,7 @@ export class JobService {
                 'jobs', {
                 params: {
                     page: index,
-                    take: pageSize
+                    take: pageSize,
                 }
             });
     }

@@ -3,7 +3,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { CommonModule } from '@angular/common';
 import { JobManagerService } from '../data-access/service/job-manager.service';
-import { catchError, of, tap } from 'rxjs';
+import { Observable, Observer, catchError, of, tap } from 'rxjs';
 import { ResponseResult, Rows } from '../../../../shared/data-access/interface/response.type';
 import { JobApi } from '../data-access/model/job-manager.model';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 
 @Component({
     selector: 'job-list',
@@ -27,7 +28,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
         ReactiveFormsModule,
         NzFormModule,
         NzIconModule,
-        FormsModule
+        FormsModule,
+        NzUploadModule,
     ],
     styles: `
         nz-table[_ngcontent-jjj-c198] nz-pagination[_ngcontent-jjj-c198] {
@@ -113,20 +115,27 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
                 </div>
                 <div class="tw-col-span-full">
                     <label>Company Logo</label>
-                    <nz-form-item>
-                        <nz-form-control nzErrorTip="Please enter Company Logo!">
-                            <nz-input-group>
-                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
-                            </nz-input-group>
-                        </nz-form-control>
-                    </nz-form-item>
+                    <nz-upload
+                        class="avatar-uploader"
+                        nzName="avatar"
+                        nzListType="picture-card"
+                        [nzShowUploadList]="false"
+                        (nzChange)="handleChange($event)"
+                        >
+                        @if (!avatarUrl) {
+                            <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
+                            <div class="ant-upload-text">Upload</div>
+                        } @else {
+                            <img [src]="avatarUrl" style="width: 100%" />
+                        }
+                    </nz-upload>
                 </div>
                 <div class="tw-col-span-full">
                     <label>Url</label>
                     <nz-form-item>
                         <nz-form-control nzErrorTip="Please enter Url!">
                             <nz-input-group>
-                            <input [(ngModel)]="searchString" (change)="getAllJobs()" class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
+                            <input (change)="getAllJobs()" class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="url">
                             </nz-input-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -187,8 +196,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
                             <p>{{ job.created_at | date: 'dd/MM/yyyy' }}</p>
                         </td>
                         <td>
-                            <button nz-button nzType="primary" class="tw-mx-0.5" (click)="onEditOpen(job.id)">Edit</button>
-                            <button nz-button nzType="primary" nzDanger class="tw-mx-0.5" (click)="showConfirmModal(job.id)">Delete</button>
+                            <button nz-button nzType="primary" nzShape="circle" class="tw-mx-0.5" (click)="onEditOpen(job.id)">
+                                <span nz-icon nzType="edit" nzTheme="outline"></span>
+                            </button>
+                            <button nz-button nzType="primary" nzDanger nzShape="circle" class="tw-mx-0.5" (click)="showConfirmModal(job.id)">
+                                <span nz-icon nzType="delete" nzTheme="outline"></span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -223,22 +236,25 @@ export class JobListComponent implements OnInit {
     pageSize: number = 5;
     jobsList: Rows<JobApi.Response> | null = null;
 
-    searchString: string = "";
-
     isDeleting: boolean = false;
-    deletetingId: string = "";
-
     isEdit: boolean = false;
+
+    searchString: string = "";
+    deletetingId: string = "";
     edittingId: string = "";
+
     jobEdittingFormGroup: FormGroup;
 
+    loading = false;
+    avatarUrl?: string;
+    
     @Output() pageIndexChange: EventEmitter<number> = new EventEmitter<number>;
 
     constructor(
         private _service: JobManagerService,
-        private _cdr: ChangeDetectorRef,
         private _fb: FormBuilder,
-        private _notification: NzNotificationService
+        private _notification: NzNotificationService,
+        private _cdr: ChangeDetectorRef,
     ) {
         this.jobEdittingFormGroup = this._fb.group({
             type: ['Full Time', Validators.required],
@@ -287,7 +303,6 @@ export class JobListComponent implements OnInit {
     onPageSizeChanged() {
         this.pageIndex = 1;
         this.getAllJobs(this.pageIndex, this.pageSize);
-        console.log(this.pageSize)
     }
 
     showConfirmModal(id: string) {
@@ -378,5 +393,28 @@ export class JobListComponent implements OnInit {
                 })
             )
             .subscribe();
+    }
+
+    private getBase64(img: File, callback: (img: string) => void): void {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result!.toString()));
+        reader.readAsDataURL(img);
+    }
+
+    handleChange(info: { file: NzUploadFile }): void {
+        switch (info.file.status) {
+        case 'uploading':
+            this.loading = true;
+            break;
+        case 'done':
+            this.getBase64(info.file!.originFileObj!, (img: string) => {
+            this.loading = false;
+            this.avatarUrl = img;
+            });
+            break;
+        case 'error':
+            this.loading = false;
+            break;
+        }
     }
 }

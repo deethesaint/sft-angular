@@ -30,7 +30,13 @@ module.exports = {
       black: "#000000",
       sky: "#a3e4ff",
       link: "#1484b2",
-      wind: "#def6ff"
+      wind: "#def6ff",
+      orange: "#ff9957",
+      yellow: "##fffa57",
+      teal: "#7ffff3",
+      "hard-gray": "#8b8b8b",
+      "light-gray": "#dcdcdc",
+      "light-purple": "#e5c1ff"
     },
     fontFamily: {
       "roboto-black": ["Roboto-Black", "sans-serif"],

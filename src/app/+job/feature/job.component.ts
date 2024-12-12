@@ -62,4 +62,8 @@ export class JobComponent implements OnInit {
     )
     .subscribe();
   }
+
+  rand() {
+    return Math.floor(Math.random() * 20000);
+  }
 }

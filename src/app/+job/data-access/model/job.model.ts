@@ -3,6 +3,12 @@ export namespace Jobs {
         items: Job[];
         total: number
     }
+
+    export interface Request {
+        filters: {
+            searchString? : string;
+        }
+    }
     
     export interface Job {
         id:            null | string;

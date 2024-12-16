@@ -12,7 +12,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HeaderComponent } from './components/header/feature/header.component';
 import { FooterComponent } from './components/footer/feature/footer.component';
-import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 @Component({
@@ -37,7 +36,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
           <router-outlet></router-outlet>
         </div>
       </div>
-      <meu-footer></meu-footer>
+      <meu-footer></meu-footer>                                  
       </nz-layout>
     </div>
   `,
@@ -52,7 +51,7 @@ export class LayoutComponent implements OnInit {
     this.breakpointObserver.observe([Breakpoints.Handset]).subscribe((res) => {
       this.isSmallScreen.set(res.matches);
     });
-
+    
     if (
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-color-scheme: dark)').matches

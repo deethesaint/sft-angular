@@ -7,22 +7,7 @@
     </div>
     <p class="tw-text-lg tw-font-semibold tw-mt-3">Suggested keywords:</p>
     <div class="tw-flex tw-flex-wrap tw-gap-x-3 tw-gap-y-1 tw-my-3">
-      <a class="tw-border tw-p-1">Laravel</a>
-      <a class="tw-border tw-p-1">VueJS</a>
-      <a class="tw-border tw-p-1">React</a>
-      <a class="tw-border tw-p-1">.NET Core</a>
-      <a class="tw-border tw-p-1">SpringBoot</a>
-      <a class="tw-border tw-p-1">Java</a>
-      <a class="tw-border tw-p-1">Svelte</a>
-      <a class="tw-border tw-p-1">CodeIgniter</a>
-      <a class="tw-border tw-p-1">Flutter</a>
-      <a class="tw-border tw-p-1">React Native</a>
-      <a class="tw-border tw-p-1">DevOps</a>
-      <a class="tw-border tw-p-1">FLask</a>
-      <a class="tw-border tw-p-1">Django</a>
-      <a class="tw-border tw-p-1">GoLang</a>
-      <a class="tw-border tw-p-1">Wizard</a>
-      <a class="tw-border tw-p-1">NodeJS</a>
+      <a class="tw-border tw-p-1" *ngFor="let item of tagItems">{{ item }}</a>
     </div>
   </div>
   <div class="tw-flex tw-flex-row tw-flex-wrap tw-mt-6">

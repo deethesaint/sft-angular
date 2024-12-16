@@ -3,7 +3,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { CommonModule } from '@angular/common';
 import { JobManagerService } from '../data-access/service/job-manager.service';
-import { Observable, Observer, catchError, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { ResponseResult, Rows } from '../../../../shared/data-access/interface/response.type';
 import { JobApi } from '../data-access/model/job-manager.model';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -13,7 +13,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { EditorComponent } from '@tinymce/tinymce-angular';
 
 @Component({
     selector: 'job-list',
@@ -30,6 +31,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
         NzIconModule,
         FormsModule,
         NzUploadModule,
+        EditorComponent,
     ],
     styles: `
         nz-table[_ngcontent-jjj-c198] nz-pagination[_ngcontent-jjj-c198] {
@@ -49,8 +51,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
                 <div>
                     <label>Type</label>
                     <select class="tw-border tw-rounded-lg tw-w-full tw-h-8" formControlName="type">
-                        <option value="Full Time">Full Time</option>
-                        <option value="Part Time">Part Time</option>
+                        <option *ngFor="let item of jobTypeItems" (value)="item">{{ item }}</option>
                     </select>
                 </div>
                 <div class="tw-col-span-2">
@@ -98,7 +99,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
                     <nz-form-item>
                         <nz-form-control nzErrorTip="Please enter description!">
                             <nz-input-group>
-                            <textarea id=myTextarea class="tw-border tw-rounded-lg tw-w-full tw-h-40" type="text" formControlName="description"></textarea>
+                            <editor apiKey="4nrurq8srrs4laamy5l9tbrd2je0huj4bu3z3mweu864gkfj" [init]="init" formControlName="description"></editor>
                             </nz-input-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -248,6 +249,10 @@ export class JobListComponent implements OnInit {
         this.getAllJobs(this.pageIndex, this.pageSize);
 
     }
+
+    init: EditorComponent['init'] = {
+        plugins: 'lists link image table code help wordcount'
+    };
 
     createNotification(type: string, title: string, message: string) {
         this._notification.create(

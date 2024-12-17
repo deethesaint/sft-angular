@@ -25,6 +25,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
+              { "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" },
               {
                 "glob": "**/*",
                 "input": "src/assets/",
@@ -38,7 +39,9 @@
               }
             ],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": [
+              "node_modules/tinymce/tinymce.min.js"
+            ]
           },
           "configurations": {
             "production": {

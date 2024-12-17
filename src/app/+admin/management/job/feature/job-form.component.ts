@@ -8,16 +8,21 @@ import { JobApi } from '../data-access/model/job-manager.model';
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { catchError, of, tap } from 'rxjs';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular'
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'job-form',
     standalone: true,
     imports: [
+        CommonModule,
         NzButtonModule,
         NzModalModule,
         ReactiveFormsModule,
-        NzFormModule
+        NzFormModule,
+        EditorComponent,
     ],
+    providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
     template: `
         <div class="tw-w-full tw-grid tw-justify-items-end">
             <button nz-button nzType="primary" (click)="isCreate = true">Create new job</button>
@@ -29,8 +34,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
                 <div>
                     <label>Type</label>
                     <select class="tw-border tw-rounded-lg tw-w-full tw-h-8" formControlName="type">
-                        <option value="Full Time">Full Time</option>
-                        <option value="Part Time">Part Time</option>
+                        <option *ngFor="let item of jobTypeItems" (value)="item"> {{ item }} </option>
                     </select>
                 </div>
                 <div class="tw-col-span-2">
@@ -78,7 +82,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
                     <nz-form-item>
                         <nz-form-control nzErrorTip="Please enter description!">
                             <nz-input-group>
-                            <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-40" type="text" formControlName="description"></textarea>
+                            <editor apiKey="4nrurq8srrs4laamy5l9tbrd2je0huj4bu3z3mweu864gkfj" [init]="init" formControlName="description"></editor>
                             </nz-input-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -122,9 +126,9 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 
 export class JobFormComponent {
     @Output() ReloadData = new EventEmitter();
-
     isCreate: boolean = false;
     jobCreatingFormGroup: FormGroup;
+    jobTypeItems = ['Full Time', 'Part Time'];
 
     constructor(private _fb: FormBuilder,
         private _service: JobManagerService,
@@ -141,6 +145,10 @@ export class JobFormComponent {
             url: ['', Validators.required],
         });
     }
+
+    init: EditorComponent['init'] = {
+        plugins: 'lists link image table code help wordcount'
+    };
 
     createNotification(type: string, title: string, message: string): void {
         this._notification.create(

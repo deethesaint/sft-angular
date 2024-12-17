@@ -28,10 +28,10 @@ import { RouterLink } from '@angular/router';
 })
 export class JobComponent implements OnInit {
   jobList: Rows<Jobs.Job> | null = null;
-
   pageIndex: number = 1;
   pageSize: number = 5;
-
+  tagItems = ['Laravel', 'React', 'React Native', 'VueJS', 'Vite', 'Svelte', 'CodeIgniter', 'Flask', 'Python',
+    'C++', 'C', 'C#', 'Java', 'Dart', 'Flutter']
   @Output() pageIndexChange: EventEmitter<number> = new EventEmitter<number>;
 
   constructor(

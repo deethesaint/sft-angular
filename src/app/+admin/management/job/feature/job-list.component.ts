@@ -3,7 +3,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { CommonModule } from '@angular/common';
 import { JobManagerService } from '../data-access/service/job-manager.service';
-import { Observable, Observer, catchError, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { ResponseResult, Rows } from '../../../../shared/data-access/interface/response.type';
 import { JobApi } from '../data-access/model/job-manager.model';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -13,7 +13,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { EditorComponent } from '@tinymce/tinymce-angular';
 
 @Component({
     selector: 'job-list',
@@ -30,6 +31,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
         NzIconModule,
         FormsModule,
         NzUploadModule,
+        EditorComponent,
     ],
     styles: `
         nz-table[_ngcontent-jjj-c198] nz-pagination[_ngcontent-jjj-c198] {
@@ -49,8 +51,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
                 <div>
                     <label>Type</label>
                     <select class="tw-border tw-rounded-lg tw-w-full tw-h-8" formControlName="type">
-                        <option value="Full Time">Full Time</option>
-                        <option value="Part Time">Part Time</option>
+                        <option *ngFor="let item of jobTypeItems" (value)="item">{{ item }}</option>
                     </select>
                 </div>
                 <div class="tw-col-span-2">
@@ -98,7 +99,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
                     <nz-form-item>
                         <nz-form-control nzErrorTip="Please enter description!">
                             <nz-input-group>
-                            <textarea class="tw-border tw-rounded-lg tw-w-full tw-h-40" type="text" formControlName="description"></textarea>
+                            <editor apiKey="4nrurq8srrs4laamy5l9tbrd2je0huj4bu3z3mweu864gkfj" [init]="init" formControlName="description"></editor>
                             </nz-input-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -115,20 +116,13 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
                 </div>
                 <div class="tw-col-span-full">
                     <label>Company Logo</label>
-                    <nz-upload
-                        class="avatar-uploader"
-                        nzName="avatar"
-                        nzListType="picture-card"
-                        [nzShowUploadList]="false"
-                        (nzChange)="handleChange($event)"
-                        >
-                        @if (!avatarUrl) {
-                            <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
-                            <div class="ant-upload-text">Upload</div>
-                        } @else {
-                            <img [src]="avatarUrl" style="width: 100%" />
-                        }
-                    </nz-upload>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please enter 'Company Logo'!">
+                            <nz-input-group>
+                            <input class="tw-border tw-rounded-lg tw-w-full tw-h-8" type="text" formControlName="company_logo">
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
                 </div>
                 <div class="tw-col-span-full">
                     <label>Url</label>
@@ -164,21 +158,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
                 >
                 <thead>
                     <tr>
-                        <th nzWidth="100px">
-                            Ord.
-                        </th>
-                        <th nzWidth="100px">
-                            Title
-                        </th>
-                        <th nzWidth="100px">
-                            Company
-                        </th>
-                        <th nzWidth="100px"> 
-                            Created at
-                        </th>
-                        <th nzWidth="100px">
-                            Actions
-                        </th>
+                        <th *ngFor="let item of columnTitleItems" nzWidth="100px"> {{ item }} </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -213,17 +193,13 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
         (nzPageIndexChange)="onPageIndexChange($event)"
         [nzPageIndex]="pageIndex"
         [nzPageSize]="pageSize"
-        [nzTotal]="jobsList?.itemCount || 0 * 10"
+        [nzTotal]="jobsList?.itemCount || 0"
       >
       </nz-pagination>
         <div class="tw-my-auto">
             <label>Item per page</label>
             <select class="tw-h-8 tw-border tw-ms-3" [(ngModel)]="pageSize" (change)="onPageSizeChanged()">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
+                    <option *ngFor="let item of itemPerPagesItems" (value)="item">{{item}}</option>
             </select>
         </div>
       </div>
@@ -235,19 +211,19 @@ export class JobListComponent implements OnInit {
     pageIndex: number = 1;
     pageSize: number = 5;
     jobsList: Rows<JobApi.Response> | null = null;
-
     isDeleting: boolean = false;
     isEdit: boolean = false;
-
     searchString: string = "";
     deletetingId: string = "";
     edittingId: string = "";
-
     jobEdittingFormGroup: FormGroup;
-
     loading = false;
     avatarUrl?: string;
-    
+
+    jobTypeItems = ['Full Time', 'Part Time'];
+    columnTitleItems = ['Ord', 'Title', 'Company', 'Created at', 'Actions'];
+    itemPerPagesItems = [5, 10, 25, 50, 100];
+
     @Output() pageIndexChange: EventEmitter<number> = new EventEmitter<number>;
 
     constructor(
@@ -271,7 +247,12 @@ export class JobListComponent implements OnInit {
 
     ngOnInit(): void {
         this.getAllJobs(this.pageIndex, this.pageSize);
+
     }
+
+    init: EditorComponent['init'] = {
+        plugins: 'lists link image table code help wordcount'
+    };
 
     createNotification(type: string, title: string, message: string) {
         this._notification.create(
@@ -393,28 +374,5 @@ export class JobListComponent implements OnInit {
                 })
             )
             .subscribe();
-    }
-
-    private getBase64(img: File, callback: (img: string) => void): void {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result!.toString()));
-        reader.readAsDataURL(img);
-    }
-
-    handleChange(info: { file: NzUploadFile }): void {
-        switch (info.file.status) {
-        case 'uploading':
-            this.loading = true;
-            break;
-        case 'done':
-            this.getBase64(info.file!.originFileObj!, (img: string) => {
-            this.loading = false;
-            this.avatarUrl = img;
-            });
-            break;
-        case 'error':
-            this.loading = false;
-            break;
-        }
     }
 }
